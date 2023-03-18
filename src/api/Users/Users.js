@@ -20,3 +20,12 @@ export const getUserData = (userId) => {
       throw error;
     });
 };
+
+export const getUserFriendsData = (userId, page, pageSize) => {
+    return axios
+      .get(`${userUrl + userId + "/friends/" + page + "/" + pageSize}`)
+      .then((response) => response.data)
+      .catch((error) => {
+        throw error;
+      })
+};

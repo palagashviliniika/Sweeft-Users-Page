@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 function UserCard(props) {
-    console.log(props)
   return (
     <Link to={`/users/${props.user.id}`}>
         <div>
