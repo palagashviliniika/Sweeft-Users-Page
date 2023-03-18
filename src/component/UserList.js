@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { getUsersFromPage } from "../api/Users/Users";
+import { getUsersFromPage, getUserFriendsData } from "../api/Users/Users";
 import config from "../config/config";
 import UserCard from "./UserCard";
 
 const PAGE_SIZE = config.page_size;
 
-function UserList() {
+function UserList({name, userId}) {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const isFirstRunRef = useRef(true);
@@ -19,18 +19,23 @@ function UserList() {
   }, [page]);
 
   async function fetchUsers(page) {
-    let data = await getUsersFromPage(page, PAGE_SIZE);
-    setUsers((prevUsers) => [...prevUsers, ...data.list]);
+    if(name === "getUsersFromPage"){
+        let data = await getUsersFromPage(page, PAGE_SIZE);
+        setUsers((prevUsers) => [...prevUsers, ...data.list]);
+    } else if(name === "getUserFriendsData"){
+        let data = await getUserFriendsData(userId, page, PAGE_SIZE);
+        setUsers((prevUsers) => [...prevUsers, ...data.list]);
+    }
+    
   }
+
+  console.log(users);
 
   function handleScroll() {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
 
     if (scrollTop + clientHeight >= scrollHeight) {
-      setTimeout(() => {
         setPage((prevPage) => prevPage + 1);
-      }, 500)
-      
     }
   }
 
@@ -50,7 +55,7 @@ function UserList() {
   })
 
   return (
-    <div>
+    <div className="flex flex-wrap justify-around gap-y-8 gap-x-1 mx-36 my-8">
       {usersComponent}
     </div>
   );

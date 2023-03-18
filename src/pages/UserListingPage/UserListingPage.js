@@ -7,7 +7,7 @@ function UserListingPage() {
 
   return (
     <div>
-      <UserList />
+      <UserList name="getUsersFromPage"/>
     </div>
   );
 }
